@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Construccion;
 
-use App\Http\Controllers\Controller;
+use App\Construccion;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ApiController;
 
-class ConstruccionController extends Controller
+class ConstruccionController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,8 @@ class ConstruccionController extends Controller
      */
     public function index()
     {
-        //
+        $construccion = Construccion::all();
+        return $this->showAll($construccion, 200);
     }
 
     /**
@@ -35,7 +37,30 @@ class ConstruccionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'fecha_desde' => 'required',
+            'fecha_hasta' => 'required',
+            'obra_id' => 'required'
+        ];
+
+        //$this->validate($request, $rules);
+
+        $campos = $request->all();
+        $campos['tipo'] = Construccion::TIPO_AUTOCONSTRUCCION;
+
+        $existe = Construccion::where('fecha_desde', '=', $campos["fecha_desde"])
+                    ->where('fecha_hasta', '=', $campos["fecha_hasta"])
+                    ->where('obra_id', '=', $campos['obra_id'])
+                    ->get();
+        
+        if(count($existe)==0){
+            $construccion = Construccion::create($campos);
+            return $this->showOne($construccion, 200);
+        }else{
+            return $this->showOne($existe[0], 200);
+        }
+
+        
     }
 
     /**
@@ -82,4 +107,22 @@ class ConstruccionController extends Controller
     {
         //
     }
+
+    public function construccionPorPeriodoYObra(Request $request){
+        try {
+            $campos = $request->all();
+            $construccion = Construccion::where('fecha_desde', '=', $campos['fecha_desde'])
+                            ->where('fecha_hasta', '=', $campos['fecha_hasta'])
+                            ->where('obra_id', '=', $campos['obra_id'])
+                            ->get();
+            if(count($construccion) == 0){
+                return $this->errorResponse("No existe ninguna periodo de colaboracion", 201);
+            }else{
+                return $this->showOne($construccion[0], 200);
+            }
+        } catch (Exception $e) {
+            return $this->errorResponse('Error de servidor', 201);
+        }
+    }
+
 }

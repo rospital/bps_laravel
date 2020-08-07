@@ -6,10 +6,12 @@ use App\Dt;
 use App\Dnp;
 use App\Email;
 use App\Empresa;
+use App\Persona;
 use App\Historia;
 use App\Telefono;
 use App\Desempleo;
 use App\Direccion;
+use App\Construccion;
 use Illuminate\Database\Eloquent\Model;
 
 class Persona extends Model
@@ -40,35 +42,39 @@ class Persona extends Model
     }
 
     public function direcciones(){
-        $this->belogsToMany(Direccion::class);
+        return $this->belogsToMany(Direccion::class);
     }
 
     public function telefonos(){
-        $this->belogsToMany(Telefono::class);
+        return $this->belogsToMany(Telefono::class);
     }
 
     public function emails(){
-        $this->belogsToMany(Email::class);
+        return $this->belogsToMany(Email::class);
     }
 
     public function dts(){
-        $this->hasMany(Dt::class);
+        return $this->hasMany(Dt::class);
     }
 
     public function dnps(){
-        $this->hasMany(Dnp::class);
+        return $this->hasMany(Dnp::class);
     }
 
     public function desempleos(){
-        $this->hasMany(Desempleo::class);
+        return $this->hasMany(Desempleo::class);
     }
 
     public function historias(){
-        $this->belongsToMany(Historia::class);
+        return $this->belongsToMany(Historia::class);
     }
 
     public function empresas(){
-        $this->belongsToMany(Empresa::class);
+        return $this->belongsToMany(Empresa::class);
+    }
+
+    public function construcciones () {
+        return $this->belongsToMany(Construccion::class);
     }
     
 }

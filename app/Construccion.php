@@ -35,4 +35,8 @@ class Construccion extends Model
     public function colaboradores () {
         return $this->belongsToMany(Colaborador::class);
     }
+
+    public function personas () {
+        return $this->belongsToMany(Persona::class);
+    }
 }

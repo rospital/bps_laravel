@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Persona;
 
 use App\Persona;
+use App\Construccion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ApiController;
 
 class PersonaController extends ApiController
@@ -15,9 +17,9 @@ class PersonaController extends ApiController
      */
     public function index()
     {
-        $persona = Persona::all();
+        $personas = Persona::all();
 
-        return $this->showAll($persona);
+        return $this->showAll($personas);
     }
 
     /**
@@ -39,9 +41,11 @@ class PersonaController extends ApiController
 
         $campos = $request->all();
 
+        $campos["foto"] = 'usuario';
+
         $persona = Persona::create($campos);
 
-        return $this->showOne($persona, 201);
+        return $this->showOne($persona, 200);
 
     }
 
@@ -126,4 +130,6 @@ class PersonaController extends ApiController
             return $this->errorResponse('Entre al problema', 201);
         }
     }
+
+    
 }

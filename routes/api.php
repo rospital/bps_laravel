@@ -33,15 +33,25 @@ Route::resource('empresas.emails', 'Empresa\EmpresaEmailController', ['only' => 
 Route::resource('personas', 'Persona\PersonaController', ['except' => ['create', 'edit']]);
 Route::post('personaPorDocumento', 'Persona\PersonaController@personaPorDocumento');
 
+Route::resource('personas.obras', 'Persona\PersonaObraController', ['only' => ['index']]);
+Route::resource('personas.construcciones', 'Persona\PersonaConstruccionController', ['except' => ['create', 'edit']]);
+
+Route::get('agregarConstruccionPersona/persona/{persona}/construccion/{construccion}', 'Persona\PersonaConstruccionController@agregarConstruccionPersona');
+Route::get('mostrarConstruccionesPersona/persona/{persona}', 'Persona\PersonaConstruccionController@mostrarConstruccionesPersona');
+
 Route::resource('colaboradores', 'Colaborador\ColaboradorController', ['except' => ['create', 'edit']]);
+Route::resource('colaboradores.obras', 'Colaborador\ColaboradorObraController', ['only' => ['index']]);
+Route::resource('colaboradores.contrucciones', 'Colaborador\ColaboradorConstruccionController', ['only' => ['index', 'update']]);
 
 Route::resource('representantes', 'Representante\RepresentanteController', ['except' => ['create', 'edit']]);
 
 Route::resource('titulares', 'Titular\TitularController', ['except' => ['create', 'edit']]);
 
-Route::resource('construcciones', 'Titular\TitularController', ['except' => ['create', 'edit']]);
+Route::resource('construcciones', 'Construccion\ConstruccionController', ['except' => ['create', 'edit']]);
+Route::post('construccionPorPeriodoYObra', 'Construccion\ConstruccionController@construccionPorPeriodoYObra');
 
 Route::resource('obras', 'Obra\ObraController', ['except' => ['create', 'edit']]);
+Route::post('obraPorNumero', 'Obra\ObraController@obraPorNumero');
 
 
 Route::resource('direcciones', 'Direccion\DireccionController', ['except' => ['create', 'edit']]);
